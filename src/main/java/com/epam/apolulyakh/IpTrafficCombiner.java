@@ -5,9 +5,7 @@ import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Reducer;
 
 import java.io.IOException;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.StringJoiner;
+import java.util.*;
 
 public class IpTrafficCombiner extends Reducer<Text, TrafficAggeregatedWritable, Text, TrafficAggeregatedWritable> {
 
@@ -24,14 +22,14 @@ public class IpTrafficCombiner extends Reducer<Text, TrafficAggeregatedWritable,
                 agents.add(value.getAgents());
             }
 
-            StringJoiner joiner = new StringJoiner(",");
-            for (String agent : agents) {
-                joiner.add(agent);
-            }
-
             aggregatedWritable.setSum(sum);
             aggregatedWritable.setNumRequests(requestCount);
-            aggregatedWritable.setAgents(joiner.toString());
+
+            //For determine order in tests
+            List<String> agentsArray = new ArrayList<>(agents);
+            Collections.sort(agentsArray);
+
+            aggregatedWritable.setAgents(String.join(",", agentsArray));
             context.write(ip, aggregatedWritable);
         }
     }

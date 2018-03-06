@@ -26,15 +26,21 @@ public class IpAggregatorMRTest {
 
     @Test
     public void testMapReduceBasic() throws IOException {
-        mapReduceDriver.getConfiguration().set("foo","bar");
+        mapReduceDriver.getConfiguration().set("foo", "bar");
         mapReduceDriver.withMapper(mapper);
         mapReduceDriver.withCombiner(combiner);
         mapReduceDriver.withReducer(reducer);
 
         mapReduceDriver.withInput(new LongWritable(0),
-                    new Text("ip1 - - [24/Apr/2011:04:06:01 -0400] \"GET /~strabal/grease/photo9/927-3.jpg HTTP/1.1\" 200 40028 \"-\" \"Mozilla/5.0 (compatible; YandexImages/3.0; +http://yandex.com/bots)\""));
-        mapReduceDriver.withOutput(new Pair<>(new Text("ip1"), new TrafficStatWritable(Double.valueOf(40028), Long.valueOf(40028))));
-        mapReduceDriver.withCounter(COUNTER_GROUP, "Robot/Spider", 1);
+                new Text("ip1 - - [24/Apr/2011:04:06:01 -0400] \"GET /~strabal/grease/photo9/927-3.jpg HTTP/1.1\" 200 40028 \"-\" \"Mozilla/5.0 (compatible; YandexImages/3.0; +http://yandex.com/bots)\""));
+        mapReduceDriver.withInput(new LongWritable(0),
+                new Text("ip9 - - [24/Apr/2011:04:36:07 -0400] \"GET / HTTP/1.1\" 200 12550 \"-\" \"Mozilla/5.0 (compatible; YodaoBot/1.0; http://www.yodao.com/help/webmaster/spider/; )\""));
+
+
+        mapReduceDriver.withOutput(new Pair<>(new Text("ip1"), new TrafficStatWritable(40028.0, 40028L)));
+        mapReduceDriver.withOutput(new Pair<>(new Text("ip9"), new TrafficStatWritable(12550.0, 12550L)));
+
+        mapReduceDriver.withCounter(COUNTER_GROUP, "Robot/Spider", 2);
         mapReduceDriver.runTest();
     }
 }

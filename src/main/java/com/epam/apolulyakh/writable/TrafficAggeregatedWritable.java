@@ -11,12 +11,13 @@ public class TrafficAggeregatedWritable implements Writable {
     private Long sum = Long.valueOf(0);
     private String agents = "";
 
-    public TrafficAggeregatedWritable() {}
+    public TrafficAggeregatedWritable() {
+    }
 
-    public TrafficAggeregatedWritable(Long numRequests, Long sum, String agent) {
+    public TrafficAggeregatedWritable(Long numRequests, Long sum, String agents) {
         this.numRequests = numRequests;
         this.sum = sum;
-        this.agents = agent;
+        this.agents = agents;
     }
 
     @Override
@@ -35,7 +36,29 @@ public class TrafficAggeregatedWritable implements Writable {
 
     @Override
     public String toString() {
-        return "" + numRequests + " " + sum;
+        return "" + numRequests + " " + sum + " " + agents;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 37;
+        hash = hash * 17 + numRequests.hashCode();
+        hash = hash * 17 + sum.hashCode();
+        hash = hash * 17 + agents.hashCode();
+        return hash;
+    }
+
+    public boolean equals(Object o) {
+        if (o == this) return true;
+        if (!(o instanceof TrafficAggeregatedWritable)) {
+            return false;
+        }
+
+        TrafficAggeregatedWritable another = (TrafficAggeregatedWritable) o;
+
+        return ((numRequests == another.numRequests) || ((numRequests != null) && numRequests.equals(another.numRequests)))
+                && ((sum == another.sum) || ((sum != null) && (sum.equals(another.sum))) )
+                && ((agents == another.agents) || (agents != null && agents.equals(another.agents)));
     }
 
     public long getNumRequests() {

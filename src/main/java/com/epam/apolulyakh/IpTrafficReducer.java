@@ -19,8 +19,6 @@ public class IpTrafficReducer extends Reducer< Text, TrafficAggeregatedWritable,
 
     @Override
     protected void reduce(Text ip, Iterable<TrafficAggeregatedWritable> sizes, Context context) throws IOException, InterruptedException {
-
-
         long sum = 0;
         long requestNum = 0;
         agents.clear();

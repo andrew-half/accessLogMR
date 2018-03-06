@@ -9,8 +9,8 @@ import java.io.IOException;
 public class TrafficStatWritable implements Writable {
 
     public static final double PRECISION  = 0.1;
-    private Double average = new Double(0);
-    private Long total = new Long(0);
+    private Double average = 0.0;
+    private Long total = 0L;
 
     public TrafficStatWritable() {}
 
@@ -32,6 +32,14 @@ public class TrafficStatWritable implements Writable {
     }
 
     @Override
+    public int hashCode() {
+        int hash = 37;
+        hash = hash * 17 + total.hashCode();
+        hash = hash * 17 + average.hashCode();
+        return hash;
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (o == this) return true;
         if (!(o instanceof TrafficStatWritable)) {
@@ -39,9 +47,10 @@ public class TrafficStatWritable implements Writable {
         }
 
         TrafficStatWritable another = (TrafficStatWritable) o;
-        return (total.equals(another.getTotal()) && (Math.abs(total-another.total) < PRECISION));
+        return ((total == another.total) || ((total != null) && total.equals(another.total)))
+                && ((average == another.average)
+                    || (average != null && another.average != null && (Math.abs(average-another.average) < PRECISION)));
     }
-
 
     @Override
     public String toString() {

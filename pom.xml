@@ -70,18 +70,6 @@
     </properties>
 
     <dependencies>
-        <!--<dependency>-->
-            <!--<groupId>org.apache.hadoop</groupId>-->
-            <!--<artifactId>hadoop-core</artifactId>-->
-            <!--<version>1.2.1</version>-->
-        <!--</dependency>-->
-
-        <!--<dependency>-->
-            <!--<groupId>org.apache.hadoop</groupId>-->
-            <!--<artifactId>hadoop-examples</artifactId>-->
-            <!--<version>1.2.1</version>-->
-        <!--</dependency>-->
-
         <dependency>
             <groupId>org.apache.hadoop</groupId>
             <artifactId>hadoop-common</artifactId>
@@ -106,7 +94,6 @@
             <version>4.12</version>
         </dependency>
 
-
         <dependency>
             <groupId>org.apache.mrunit</groupId>
             <artifactId>mrunit</artifactId>
@@ -114,6 +101,5 @@
             <classifier>hadoop2</classifier>
             <scope>test</scope>
         </dependency>
-
     </dependencies>
 </project>
